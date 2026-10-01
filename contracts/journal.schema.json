@@ -1,0 +1,61 @@
+{
+  "title": "县域试点与制度转化服务：只增事件台账信封契约",
+  "type": "object",
+  "required": ["seq", "at", "actor_id", "role", "type", "payload", "prev_hash", "hash"],
+  "properties": {
+    "seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "台账内连续递增序号，从1开始"
+    },
+    "at": {
+      "type": "string",
+      "description": "事件发生时间（ISO 8601）"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "提交人标识，不得为真实个人信息"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["province", "pilot", "partner", "evaluator", "receiver", "system"],
+      "description": "提交人职责；事件类型与职责的对应由服务强制"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "zone.registered",
+        "profile.supplemented",
+        "submission.received",
+        "submission.deduplicated",
+        "experience.published",
+        "plan.rearranged",
+        "commitment.fulfilled",
+        "evaluation.confirmed",
+        "metric.conflict.flagged",
+        "metric.review.recorded",
+        "supervision.opened",
+        "supervision.closed",
+        "supervision.restored",
+        "adoption.applied",
+        "adoption.decided"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "事件业务内容，结构由type决定；封存类事件的payload摘要即封存依据"
+    },
+    "prev_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "前一事件hash，首条为GENESIS"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "本条事件规范序列化后的SHA-256摘要；校验失败即视为记录被改写"
+    }
+  },
+  "additionalProperties": false
+}
